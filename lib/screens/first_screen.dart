@@ -17,7 +17,7 @@ class _FirstScreenState extends State<FirstScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getData();
+    getData(dropdownvalue);
   }
 
   Map responseBody = {};
@@ -28,10 +28,17 @@ class _FirstScreenState extends State<FirstScreen> {
     'Afghanistan',
     'Iran',
     'Iraq',
+    "Algeria",
+    "Argentina",
+    "Australia",
+    "Bahrain",
+    "Bangladesh",
+    "USA",
+    "Russia",
   ];
 
-  getData() async {
-    var url = Uri.parse('https://disease.sh/v3/covid-19/countries/Pakistan');
+  getData(String newIndex) async {
+    var url = Uri.parse('https://disease.sh/v3/covid-19/countries/$newIndex');
     var response = await http.get(url);
     if (response.statusCode == 200) {
       setState(() {
@@ -44,6 +51,7 @@ class _FirstScreenState extends State<FirstScreen> {
   }
 
   int currentIndex = 0;
+  // String newIndex = "Pakistan";
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +62,7 @@ class _FirstScreenState extends State<FirstScreen> {
     var tests = responseBody["tests"].toString();
     var critical = responseBody["critical"].toString();
     return responseBody.isEmpty
-        ? Scaffold(
+        ? const Scaffold(
             body: Center(
               child: CircularProgressIndicator(
                   // color: Color.fromRGBO(207, 227, 252, 5),
@@ -76,7 +84,13 @@ class _FirstScreenState extends State<FirstScreen> {
                           TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
                     ),
                     DropdownButton(
+                      alignment: AlignmentDirectional.bottomCenter,
                       value: dropdownvalue,
+                      borderRadius: BorderRadius.circular(20),
+                      padding: const EdgeInsets.all(5),
+                      menuMaxHeight: 400,
+                      style: const TextStyle(fontSize: 15, color: Colors.black),
+                      dropdownColor: const Color.fromRGBO(207, 227, 252, 5),
                       icon: const Icon(Icons.keyboard_arrow_down),
                       items: items.map((String items) {
                         return DropdownMenuItem(
@@ -88,6 +102,8 @@ class _FirstScreenState extends State<FirstScreen> {
                         setState(() {
                           dropdownvalue = newValue!;
                         });
+
+                        getData(dropdownvalue);
                       },
                     ),
                   ],
@@ -107,13 +123,14 @@ class _FirstScreenState extends State<FirstScreen> {
                           top: 10,
                         ),
                         child: Container(
-                          margin: EdgeInsets.only(right: 20),
+                          margin: const EdgeInsets.only(right: 20),
                           height: 170,
                           width: 320,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color.fromRGBO(207, 227, 252, 5),
-                          ),
+                              borderRadius: BorderRadius.circular(20),
+                              color: const Color.fromRGBO(207, 227, 252, 5),
+                              border: Border.all(
+                                  color: const Color.fromRGBO(74, 156, 252, 5))),
                         ),
                       ),
                       Positioned(
@@ -142,9 +159,9 @@ class _FirstScreenState extends State<FirstScreen> {
                     child: ToggleSwitch(
                       minWidth: 140.0,
                       cornerRadius: 20.0,
-                      activeBgColors: [
-                        [Colors.white!],
-                        [Colors.white!]
+                      activeBgColors: const [
+                        [Colors.white],
+                        [Colors.white]
                       ],
                       activeFgColor: Colors.black,
                       inactiveBgColor: const Color.fromRGBO(251, 216, 197, 5),
@@ -194,11 +211,11 @@ class _FirstScreenState extends State<FirstScreen> {
                               ),
                               Container(
                                   margin:
-                                      const EdgeInsets.only(top: 40, left: 45),
+                                      const EdgeInsets.only(top: 40, left: 20),
                                   child: Text(
                                     confirmed.toString(),
                                     style: const TextStyle(
-                                        fontSize: 25,
+                                        fontSize: 22,
                                         fontWeight: FontWeight.w700,
                                         color: Color.fromRGBO(252, 20, 65, 5)),
                                   )),
@@ -231,11 +248,11 @@ class _FirstScreenState extends State<FirstScreen> {
                               ),
                               Container(
                                   margin:
-                                      const EdgeInsets.only(top: 40, left: 70),
+                                      const EdgeInsets.only(top: 40, left: 20),
                                   child: Text(
                                     active,
                                     style: const TextStyle(
-                                        fontSize: 25,
+                                        fontSize: 22,
                                         fontWeight: FontWeight.w700,
                                         color: Color.fromRGBO(74, 156, 252, 5)),
                                   )),
@@ -273,11 +290,11 @@ class _FirstScreenState extends State<FirstScreen> {
                               ),
                               Container(
                                   margin:
-                                      const EdgeInsets.only(top: 40, left: 45),
+                                      const EdgeInsets.only(top: 40, left: 20),
                                   child: Text(
                                     recovered,
                                     style: const TextStyle(
-                                        fontSize: 25,
+                                        fontSize: 22,
                                         fontWeight: FontWeight.w700,
                                         color: Color.fromRGBO(71, 176, 94, 5)),
                                   )),
@@ -310,11 +327,11 @@ class _FirstScreenState extends State<FirstScreen> {
                               ),
                               Container(
                                   margin:
-                                      const EdgeInsets.only(top: 40, left: 70),
+                                      const EdgeInsets.only(top: 40, left: 20),
                                   child: Text(
                                     deaths,
                                     style: const TextStyle(
-                                        fontSize: 25,
+                                        fontSize: 22,
                                         fontWeight: FontWeight.w700,
                                         color:
                                             Color.fromRGBO(117, 125, 132, 5)),
@@ -354,11 +371,11 @@ class _FirstScreenState extends State<FirstScreen> {
                               ),
                               Container(
                                   margin:
-                                      const EdgeInsets.only(top: 40, left: 30),
+                                      const EdgeInsets.only(top: 40, left: 20),
                                   child: Text(
                                     tests,
                                     style: const TextStyle(
-                                        fontSize: 25,
+                                        fontSize: 22,
                                         fontWeight: FontWeight.w700,
                                         color: Color.fromRGBO(199, 176, 26, 5)),
                                   )),
@@ -392,11 +409,11 @@ class _FirstScreenState extends State<FirstScreen> {
                               ),
                               Container(
                                   margin:
-                                      const EdgeInsets.only(top: 40, left: 120),
+                                      const EdgeInsets.only(top: 40, left: 20),
                                   child: Text(
                                     critical,
                                     style: const TextStyle(
-                                        fontSize: 25,
+                                        fontSize: 22,
                                         fontWeight: FontWeight.w700,
                                         color: Color.fromRGBO(93, 45, 139, 5)),
                                   )),
